@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using System.IO;
 using MvcFileManage.Models;
+using System.Text;
 namespace MvcFileManage.Controllers {
     public class ViewManageController : Controller {
         #region Browse the Dictionary
@@ -139,12 +140,47 @@ namespace MvcFileManage.Controllers {
         [AcceptVerbs(HttpVerbs.Post)]
         [ActionName("DeleteFile")]
         public ActionResult DeleteFile2(string fn) {
-
             var serverfn = Server.MapPath(fn);
             if (!System.IO.File.Exists(serverfn)) return View();
             var path = new FileInfo(serverfn);
             path.Delete();
             return RedirectToAction("Index", new { fn = Path.GetDirectoryName(fn) });
+        }
+        #endregion
+
+        #region Edit File
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult EditFile(string path, string fn) {
+            var m = new ViewManageFileEditViewModel {
+                Path = path,
+                IsEdit = false,
+                Encoding = Encoding.UTF8
+            };
+
+            if (!string.IsNullOrEmpty(fn)) { 
+            //edit
+                var filepath=Server.MapPath( Path.Combine(path,fn));
+                if (System.IO.File.Exists(filepath)) {
+                    var f = new FileInfo(filepath);
+                    using (var s = f.OpenText()) {
+                        m.Content = s.ReadToEnd();
+                    }
+                    m.IsEdit = true;
+                }
+                m.Filename = fn;
+            }//else is create
+           //ar m = new ViewManageViewModelBase { Path = fn };
+            return View(m);
+        }
+        [ValidateInput(false)]
+        [AcceptVerbs(HttpVerbs.Post)]
+        public ActionResult EditFile(string path, string fn, string content, bool isedit) {
+            if (string.IsNullOrEmpty(fn)) return EditFile(path, fn);
+            var filepath = Server.MapPath(Path.Combine(path, fn));
+            using (var sw = new System.IO.StreamWriter(filepath, false, Encoding.UTF8)) {
+                sw.Write(content);
+            }
+            return RedirectToAction("Index", new { fn = path });
         }
         #endregion
     }

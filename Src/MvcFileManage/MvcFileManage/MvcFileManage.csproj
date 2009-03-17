@@ -69,6 +69,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewManageFileEditViewModel.cs" />
     <Compile Include="Models\ViewManageViewModelBase.cs" />
     <Compile Include="Models\ViewManageIndexViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -80,6 +81,7 @@
     <Content Include="Views\ViewManage\CreateDictionary.aspx" />
     <Content Include="Views\ViewManage\DeleteDictionary.aspx" />
     <Content Include="Views\ViewManage\DeleteFile.aspx" />
+    <Content Include="Views\ViewManage\EditFile.aspx" />
     <Content Include="Views\ViewManage\Index.aspx" />
     <Content Include="Views\ViewManage\RenameDictionary.aspx" />
     <Content Include="Views\ViewManage\RenameFile.aspx" />

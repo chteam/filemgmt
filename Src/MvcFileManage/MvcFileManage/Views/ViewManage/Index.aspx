@@ -5,7 +5,6 @@
 <head runat="server">
     <title>
         <%=Model.Path %></title>
-
     <script src="/Scripts/jquery-1.3.1.js" type="text/javascript"></script>
 
     <style type="text/css">
@@ -28,9 +27,9 @@
     </style>
 </head>
 <body>
-    <h2>
+    
+    <div style="width:100%"><h2>
         Current Path:<%=Model.Path %></h2>
-    <div>
         <fieldset class="dicts">
             <legend>Dictionarys</legend>
             <ul>
@@ -58,16 +57,17 @@
                 <% foreach (var d in Model.Files) { %>
                 <li>
                     <div class="tools">
-                    <%=Html.ActionLink("Edit", "EditFile", new { fn = Path.Combine(Model.Path, Path.GetFileName(d)) }, new { title = "Edit this file" })%>
+                        <%=Html.ActionLink("Edit", "EditFile", new { path = Model.Path,fn=Path.GetFileName(d) }, new { title = "Edit this file" })%>
                         <%=Html.ActionLink("Rename", "RenameFile", new { fn = Path.Combine(Model.Path, Path.GetFileName(d)) }, new { title = "Rename this file" })%>
                         <%=Html.ActionLink("Delete", "DeleteFile", new { fn = Path.Combine(Model.Path, Path.GetFileName(d)) }, new { title = "Delete this file" })%>
                     </div>
                     <%=Path.GetFileName(d)%>
                 </li>
                 <%} %>
-            </ul>            <div>
+            </ul>
+            <div>
                 Other£º
-                <%=Html.ActionLink("Create a text file", "EditFile", new { fn = Model.Path }, new { title = "Create a file and appoint a file name" })%>
+                <%=Html.ActionLink("Create a text file", "EditFile", new { path = Model.Path }, new { title = "Create a file and appoint a file name" })%>
             </div>
         </fieldset>
     </div>
@@ -78,5 +78,7 @@
         );
     </script>
 
+    <div style="width: 100%; background: #ffee99;float:left">
+        Written by <a href="http://www.cnblogs.com/chsword/">Jian Zou</a></div>
 </body>
 </html>
