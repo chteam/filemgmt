@@ -125,8 +125,25 @@ namespace MvcFileManage.Controllers {
             if (Path.GetFileName(fn) == name) return RenameFile(fn);
             if (!System.IO.File.Exists(serverfn)) return RenameFile(fn);
             if (System.IO.File.Exists(newpath)) return RenameFile(fn);
-
             System.IO.File.Move(serverfn, newpath);
+            return RedirectToAction("Index", new { fn = Path.GetDirectoryName(fn) });
+        }
+        #endregion
+
+        #region Delete File
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult DeleteFile(string fn) {
+            var m = new ViewManageViewModelBase { Path = fn };
+            return View(m);
+        }
+        [AcceptVerbs(HttpVerbs.Post)]
+        [ActionName("DeleteFile")]
+        public ActionResult DeleteFile2(string fn) {
+
+            var serverfn = Server.MapPath(fn);
+            if (!System.IO.File.Exists(serverfn)) return View();
+            var path = new FileInfo(serverfn);
+            path.Delete();
             return RedirectToAction("Index", new { fn = Path.GetDirectoryName(fn) });
         }
         #endregion
