@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MvcFileManage", "MvcFileManage\MvcFileManage.csproj", "{F467E36D-7C12-4A4C-895E-68FCEDE7382A}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 2
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs10.codeplex.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = MvcFileManage\\MvcFileManage.csproj
+		SccProjectName1 = MvcFileManage
+		SccLocalPath1 = MvcFileManage
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F467E36D-7C12-4A4C-895E-68FCEDE7382A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F467E36D-7C12-4A4C-895E-68FCEDE7382A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F467E36D-7C12-4A4C-895E-68FCEDE7382A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F467E36D-7C12-4A4C-895E-68FCEDE7382A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
