@@ -67,13 +67,13 @@
                 <%} %>
             </ul>            <div>
                 Other£º
-                <%=Html.ActionLink("Create", "EditFile", new { fn = Model.Path }, new { title = "Create a file and appoint a file name" })%>
+                <%=Html.ActionLink("Create a text file", "EditFile", new { fn = Model.Path }, new { title = "Create a file and appoint a file name" })%>
             </div>
         </fieldset>
     </div>
 
     <script type="text/javascript">
-        $('li').hover(function() { $(this).css('background', 'lightblue'); },
+        $('li').hover(function() { $(this).css('background', 'lightgray'); },
         function() { $(this).css('background', ''); }
         );
     </script>
