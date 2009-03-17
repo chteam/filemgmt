@@ -78,6 +78,7 @@
     <Content Include="Global.asax" />
     <Content Include="Readme.txt" />
     <Content Include="Views\ViewManage\CreateDictionary.aspx" />
+    <Content Include="Views\ViewManage\DeleteDictionary.aspx" />
     <Content Include="Views\ViewManage\Index.aspx" />
     <Content Include="Views\ViewManage\RenameDictionary.aspx" />
     <Content Include="Web.config" />

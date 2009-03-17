@@ -3,21 +3,24 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>RenameDictionary</title>
+    <title>DeleteDictionary</title>
 </head>
 <body>
     <h2>
-        Current Dictionary:<%=Model.Path %></h2>
+        Current Path:<%=Model.Path %></h2>
     <div>
         <fieldset>
-            <legend>Rename Dictionary</legend>
+            <legend>Delete Dictionary</legend>
             <form action="" method="post">
             <p>
-                <label>New Name</label><%=Html.TextBox("name",Path.GetFileName(Model.Path)) %></p>
+              Do you want to delete the dictionary:
+                "<%=Path.GetFileName(Model.Path) %>"?</p>
             <p>
-                <input type="submit" value="Rename" /></p>
+                
+                <input type="submit" value="Yes" />
+                or
+                <input type="button" value="No" onclick="location='<%=Url.Action("Index",new{fn=Path.GetDirectoryName(Model.Path)}) %>';" /></p>
             </form>
-             Back to <%=Html.ActionLink(Path.GetDirectoryName(Model.Path), "Index", new { fn = Path.GetDirectoryName(Model.Path) })%>
         </fieldset>
     </div>
 </body>

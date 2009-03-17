@@ -14,6 +14,7 @@
             <p><label>Dictionary Name</label><%=Html.TextBox("name") %></p>
             <p><input type="submit" value="Create" /></p>
             </form>
+            Back to <%=Html.ActionLink(Model.Path, "Index", new { fn=Model.Path})%>
         </fieldset>
     </div>
 </body>

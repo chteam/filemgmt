@@ -8,6 +8,8 @@ using System.IO;
 using MvcFileManage.Models;
 namespace MvcFileManage.Controllers {
     public class ViewManageController : Controller {
+        #region Browse the Dictionary
+
         /// <summary>
         /// browse the dictionary
         /// </summary>
@@ -36,11 +38,21 @@ namespace MvcFileManage.Controllers {
             };
             return View(m);
         }
+
+        #endregion
+
+        #region Create Dictionary
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult CreateDictionary(string fn) {
             var m = new ViewManageViewModelBase { Path = fn };
             return View(m);
         }
+        /// <summary>
+        /// Create Dictionary
+        /// </summary>
+        /// <param name="fn"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult CreateDictionary(string fn, string name) {
             if (string.IsNullOrEmpty(name.Trim())) return View();
@@ -50,6 +62,10 @@ namespace MvcFileManage.Controllers {
 
             return RedirectToAction("Index", new { fn });
         }
+
+        #endregion
+
+        #region Rename Dictionary
         [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult RenameDictionary(string fn) {
             var m = new ViewManageViewModelBase { Path = fn };
@@ -63,12 +79,36 @@ namespace MvcFileManage.Controllers {
             if (Path.GetFileName(fn) == name) return View();
             if (!Directory.Exists(serverfn)) return View();
             if (Directory.Exists(newpath)) return View();
-
             Directory.Move(serverfn, newpath);
-
-
             return RedirectToAction("Index", new { fn = Path.GetDirectoryName(fn) });
         }
+        #endregion
 
+        #region Delete Dictionary
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult DeleteDictionary(string fn) {
+            var m = new ViewManageViewModelBase { Path = fn };
+            return View(m);
+        }
+        [AcceptVerbs(HttpVerbs.Post)]
+        [ActionName("DeleteDictionary")]
+        public ActionResult DeleteDictionary2(string fn) {
+           
+            var serverfn = Server.MapPath(fn);
+            if (!Directory.Exists(serverfn)) return View();
+            var path = new DirectoryInfo(serverfn);
+            RecursionDelete(path);
+            return RedirectToAction("Index", new { fn = Path.GetDirectoryName(fn) });
+        }
+        private void RecursionDelete(DirectoryInfo path) {
+            foreach (DirectoryInfo d in path.GetDirectories()) {
+                RecursionDelete(d);
+            }
+            foreach (FileInfo f in path.GetFiles()) {
+                f.Delete();
+            }
+            path.Delete();
+        }  
+        #endregion
     }
 }
