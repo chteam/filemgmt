@@ -26,11 +26,11 @@ namespace MvcFileManage.Controllers {
             foreach (var obj in subs) {
                 if (Directory.Exists(obj))
                     dict.Add(obj);
-                //  CopyDir(file, destPath + Path.GetFileName(file));
+                //  CopyDir(file, destPath + System.IO.Path.GetFileName(file));
                 // 否则直接Copy文件
                 else
                     files.Add(obj);
-                //File.Copy(file, destPath + Path.GetFileName(file), true);
+                //File.Copy(file, destPath + System.IO.Path.GetFileName(file), true);
             }
             var m = new ViewManageIndexViewModel {
                 Dict = dict,
@@ -58,8 +58,8 @@ namespace MvcFileManage.Controllers {
         public ActionResult CreateDictionary(string fn, string name) {
             if (string.IsNullOrEmpty(name.Trim())) return View();
             var serverfn = Server.MapPath(fn);
-            if (Directory.Exists(Path.Combine(serverfn, name))) return View();
-            Directory.CreateDirectory(Path.Combine(serverfn, name));
+            if (Directory.Exists(System.IO.Path.Combine(serverfn, name))) return View();
+            Directory.CreateDirectory(System.IO.Path.Combine(serverfn, name));
 
             return RedirectToAction("Index", new { fn });
         }
@@ -76,12 +76,12 @@ namespace MvcFileManage.Controllers {
         public ActionResult RenameDictionary(string fn, string name) {
             if (string.IsNullOrEmpty(name.Trim())) return View();
             var serverfn = Server.MapPath(fn);
-            var newpath = Path.Combine(Path.GetDirectoryName(serverfn), name);
-            if (Path.GetFileName(fn) == name) return View();
+            var newpath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(serverfn), name);
+            if (System.IO.Path.GetFileName(fn) == name) return View();
             if (!Directory.Exists(serverfn)) return View();
             if (Directory.Exists(newpath)) return View();
             Directory.Move(serverfn, newpath);
-            return RedirectToAction("Index", new { fn = Path.GetDirectoryName(fn) });
+            return RedirectToAction("Index", new { fn = System.IO.Path.GetDirectoryName(fn) });
         }
         #endregion
 
@@ -99,16 +99,17 @@ namespace MvcFileManage.Controllers {
             if (!Directory.Exists(serverfn)) return View();
             var path = new DirectoryInfo(serverfn);
             RecursionDelete(path);
-            return RedirectToAction("Index", new { fn = Path.GetDirectoryName(fn) });
+            return RedirectToAction("Index", new { fn = System.IO.Path.GetDirectoryName(fn) });
         }
         private void RecursionDelete(DirectoryInfo path) {
             foreach (DirectoryInfo d in path.GetDirectories()) {
                 RecursionDelete(d);
             }
             foreach (FileInfo f in path.GetFiles()) {
+                SetFileAttr(f.FullName);
                 f.Delete();
             }
-            path.Delete();
+           path.Delete();
         }  
         #endregion
 
@@ -122,12 +123,12 @@ namespace MvcFileManage.Controllers {
         public ActionResult RenameFile(string fn, string name) {
             if (string.IsNullOrEmpty(name.Trim())) return RenameFile(fn);
             var serverfn = Server.MapPath(fn);
-            var newpath = Path.Combine(Path.GetDirectoryName(serverfn), name);
-            if (Path.GetFileName(fn) == name) return RenameFile(fn);
+            var newpath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(serverfn), name);
+            if (System.IO.Path.GetFileName(fn) == name) return RenameFile(fn);
             if (!System.IO.File.Exists(serverfn)) return RenameFile(fn);
             if (System.IO.File.Exists(newpath)) return RenameFile(fn);
             System.IO.File.Move(serverfn, newpath);
-            return RedirectToAction("Index", new { fn = Path.GetDirectoryName(fn) });
+            return RedirectToAction("Index", new { fn = System.IO.Path.GetDirectoryName(fn) });
         }
         #endregion
 
@@ -142,9 +143,10 @@ namespace MvcFileManage.Controllers {
         public ActionResult DeleteFile2(string fn) {
             var serverfn = Server.MapPath(fn);
             if (!System.IO.File.Exists(serverfn)) return View();
+            SetFileAttr(serverfn);
             var path = new FileInfo(serverfn);
             path.Delete();
-            return RedirectToAction("Index", new { fn = Path.GetDirectoryName(fn) });
+            return RedirectToAction("Index", new { fn = System.IO.Path.GetDirectoryName(fn) });
         }
         #endregion
 
@@ -159,7 +161,7 @@ namespace MvcFileManage.Controllers {
 
             if (!string.IsNullOrEmpty(fn)) { 
             //edit
-                var filepath=Server.MapPath( Path.Combine(path,fn));
+                var filepath=Server.MapPath( System.IO.Path.Combine(path,fn));
                 if (System.IO.File.Exists(filepath)) {
                     var f = new FileInfo(filepath);
                     using (var s = f.OpenText()) {
@@ -176,11 +178,21 @@ namespace MvcFileManage.Controllers {
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult EditFile(string path, string fn, string content, bool isedit) {
             if (string.IsNullOrEmpty(fn)) return EditFile(path, fn);
-            var filepath = Server.MapPath(Path.Combine(path, fn));
+            var filepath = Server.MapPath(System.IO.Path.Combine(path, fn));
+            SetFileAttr(filepath);
             using (var sw = new System.IO.StreamWriter(filepath, false, Encoding.UTF8)) {
                 sw.Write(content);
             }
             return RedirectToAction("Index", new { fn = path });
+        }
+        #endregion
+
+        #region set file attr can be written
+        private void SetFileAttr(string filepath) {
+            if ((System.IO.File.GetAttributes(filepath)
+                   & FileAttributes.ReadOnly) == FileAttributes.ReadOnly) {
+                System.IO.File.SetAttributes(filepath, FileAttributes.Archive);
+            }
         }
         #endregion
     }

@@ -13,12 +13,12 @@
             <legend>Rename File</legend>
             <form action="" method="post">
             <p>
-                <label>New Name</label><%=Html.TextBox("name",Path.GetFileName(Model.Path)) %></p>
+                <label>New Name</label><%=Html.TextBox("name",System.IO.Path.GetFileName(Model.Path)) %></p>
             <p>
                 <input type="submit" value="Rename" /></p>
             </form>
             
-            <%=Html.ActionLink("Back to the "+Path.GetDirectoryName(Model.Path), "Index", new { fn = Path.GetDirectoryName(Model.Path) })%>
+            <%=Html.ActionLink("Back to the "+System.IO.Path.GetDirectoryName(Model.Path), "Index", new { fn = System.IO.Path.GetDirectoryName(Model.Path) })%>
         </fieldset>
     </div>
 </body>

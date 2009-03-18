@@ -34,15 +34,15 @@
             <legend>Dictionarys</legend>
             <ul>
                 <li>
-                    <%=Html.ActionLink("..", "Index", new { fn = Path.GetDirectoryName(Model.Path), title = "返回上级目录" }, new { title="Back to the upper dictionary"})%>
+                    <%=Html.ActionLink("..", "Index", new { fn = System.IO.Path.GetDirectoryName(Model.Path), title = "返回上级目录" }, new { title="Back to the upper dictionary"})%>
                 </li>
                 <% foreach (var d in Model.Dict) { %>
                 <li>
                     <div class="tools">
-                        <%=Html.ActionLink("Rename", "RenameDictionary", new { fn = Path.Combine(Model.Path, Path.GetFileName(d)) }, new { title = "Rename this dictionary" })%>
-                        <%=Html.ActionLink("Delete", "DeleteDictionary", new { fn = Path.Combine(Model.Path, Path.GetFileName(d)) }, new { title = "Delete this dictionary" })%>
+                        <%=Html.ActionLink("Rename", "RenameDictionary", new { fn = System.IO.Path.Combine(Model.Path, System.IO.Path.GetFileName(d)) }, new { title = "Rename this dictionary" })%>
+                        <%=Html.ActionLink("Delete", "DeleteDictionary", new { fn = System.IO.Path.Combine(Model.Path, System.IO.Path.GetFileName(d)) }, new { title = "Delete this dictionary" })%>
                     </div>
-                    <%=Html.ActionLink(Path.GetFileName(d), "Index", new { fn = Path.Combine(Model.Path, Path.GetFileName(d)) })%>
+                    <%=Html.ActionLink(System.IO.Path.GetFileName(d), "Index", new { fn = System.IO.Path.Combine(Model.Path, System.IO.Path.GetFileName(d)) })%>
                 </li>
                 <%} %>
             </ul>
@@ -57,11 +57,11 @@
                 <% foreach (var d in Model.Files) { %>
                 <li>
                     <div class="tools">
-                        <%=Html.ActionLink("Edit", "EditFile", new { path = Model.Path,fn=Path.GetFileName(d) }, new { title = "Edit this file" })%>
-                        <%=Html.ActionLink("Rename", "RenameFile", new { fn = Path.Combine(Model.Path, Path.GetFileName(d)) }, new { title = "Rename this file" })%>
-                        <%=Html.ActionLink("Delete", "DeleteFile", new { fn = Path.Combine(Model.Path, Path.GetFileName(d)) }, new { title = "Delete this file" })%>
+                        <%=Html.ActionLink("Edit", "EditFile", new { path = Model.Path,fn=System.IO.Path.GetFileName(d) }, new { title = "Edit this file" })%>
+                        <%=Html.ActionLink("Rename", "RenameFile", new { fn = System.IO.Path.Combine(Model.Path, System.IO.Path.GetFileName(d)) }, new { title = "Rename this file" })%>
+                        <%=Html.ActionLink("Delete", "DeleteFile", new { fn = System.IO.Path.Combine(Model.Path, System.IO.Path.GetFileName(d)) }, new { title = "Delete this file" })%>
                     </div>
-                    <%=Path.GetFileName(d)%>
+                    <%=System.IO.Path.GetFileName(d)%>
                 </li>
                 <%} %>
             </ul>
